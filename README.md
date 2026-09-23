@@ -70,7 +70,7 @@ Full detail, including design choices and limitations: **[Documents/methodology.
 3. **Frequency separates valuable customers far more than recency does.** In the recency × frequency heatmap, average revenue per customer rises from $532 to $3,913 across frequency scores 1 → 5, while it stays flat (about $1,430–$1,700) across recency scores 1 → 5. Part of this is mechanical (more orders means more revenue), so treat it as a design pointer, not proof of cause.
 4. **"Churn" is a tiny, low-value group, not a warning sign.** The 258 Churn customers average $20 in lifetime spend. They look like one-off, low-value buyers rather than lapsed regulars.
 
-![Segment Deep-Dive](Documents/screenshots/segment_deep_dive.png)
+![Segment Deep-Dive](Documents/segment_deep_dive.png)
 
 ## 💡 Decisions this supports
 
