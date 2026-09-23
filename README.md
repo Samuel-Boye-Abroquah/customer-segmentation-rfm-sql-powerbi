@@ -54,6 +54,7 @@ Each dimension gets a **1–5 score** via `NTILE(5)` (5 = best). The four scores
 
 Full detail, including design choices and limitations: **[Documents/methodology.md](Documents/methodology.md)**.
 ## Customer Segmentation Performance Dashboard
+---
 ![Executive Overview](Documents/executive_overview.png)
 
 ### Segments
