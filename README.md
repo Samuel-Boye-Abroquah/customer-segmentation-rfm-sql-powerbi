@@ -70,7 +70,7 @@ Full detail, including design choices and limitations: **[docs/methodology.md](d
 3. **Frequency separates valuable customers far more than recency does.** In the recency × frequency heatmap, average revenue per customer rises from $532 to $3,913 across frequency scores 1 → 5, while it stays flat (about $1,430–$1,700) across recency scores 1 → 5. Part of this is mechanical (more orders means more revenue), so treat it as a design pointer, not proof of cause.
 4. **"Churn" is a tiny, low-value group, not a warning sign.** The 258 Churn customers average $20 in lifetime spend. They look like one-off, low-value buyers rather than lapsed regulars.
 
-![Segment Deep-Dive](docs/screenshots/segment-deep-dive.png)
+![Segment Deep-Dive](Documents/screenshots/segment_deep_dive.png)
 
 ## 💡 Decisions this supports
 
@@ -105,7 +105,7 @@ customer-segmentation-rfm-sql-powerbi/
 
 ## ▶️ How to run
 
-1. Get the source CSVs (see [data/README.md](data/README.md)) and put them in your MySQL `secure_file_priv` folder.
+1. Get the source CSVs (see [Dataset) and put them in your MySQL `secure_file_priv` folder.
 2. Run the SQL files in order, `01` → `06`, in MySQL Workbench (MySQL 8.0+ required).
 3. Check `05_validation_checks.sql` results: row count, no duplicates, no NULL scores, and revenue reconciling to zero difference.
 4. Run `06_segment_summary.sql` to reproduce the segment table above.
