@@ -14,7 +14,7 @@ An end-to-end customer analytics project. It scores **18,484 customers** on Rece
 
 `MySQL tables → rfm_customer_segments view → Power BI model → Executive dashboard`
 
-![Executive Overview](docs/screenshots/executive-overview.png)
+![Executive Overview](Documents/executive_overview.png)
 
 ---
 
