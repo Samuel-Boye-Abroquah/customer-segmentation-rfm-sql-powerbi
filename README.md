@@ -85,7 +85,7 @@ Full detail, including design choices and limitations: **[Documents/methodology.
 
 ## 🗂️ Repository structure
 
-```
+**```
 customer-segmentation-rfm-sql-powerbi/
 │
 ├── Dataset/
@@ -109,7 +109,7 @@ customer-segmentation-rfm-sql-powerbi/
 │   ├── 04_rfm_segmentation_view.sql    # the scoring view
 │   └── 05_validation.sql               # data-quality and logic checks
 ├── LICENSE
-└── README.md
+└── README.md**
 ```
 
 ## ▶️ How to run
