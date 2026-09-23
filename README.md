@@ -53,8 +53,8 @@ Each customer is scored on four dimensions built from `fact_sales` and `dim_cust
 Each dimension gets a **1–5 score** via `NTILE(5)` (5 = best). The four scores sum to a **total from 4 to 20**, which maps to a segment. All dates are anchored to the latest order in the dataset (not `CURDATE()`), and every `NTILE` uses `customer_key` as a tie-breaker so results are reproducible.
 
 Full detail, including design choices and limitations: **[Documents/methodology.md](Documents/methodology.md)**.
-## Customer Segmentation Performance Dashboard
 ---
+## Customer Segmentation Performance Dashboard
 ![Executive Overview](Documents/executive_overview.png)
 
 ### Segments
