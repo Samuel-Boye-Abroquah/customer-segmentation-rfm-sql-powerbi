@@ -87,24 +87,29 @@ Full detail, including design choices and limitations: **[Documents/methodology.
 
 ```
 customer-segmentation-rfm-sql-powerbi/
-├── README.md
-├── LICENSE
+│
+├── Dataset/
+│   ├── dim_customers.csv
+│   └── fact_sales.csv
+│
+├── Documents/
+│   ├──executive_overview.png                  # full methodology and limitations
+│   ├── methodology.md 
+│   ├── pipeline.png
+│   └── segment_deep_dive.png
+│
+├── powerbi/
+│   ├── customer_segmentation_dashboard.pbix
+│   └── measure.dax                     # 23 measures + Segment Order column
+│
 ├── sql/
 │   ├── 01_create_database.sql
 │   ├── 02_create_tables.sql
 │   ├── 03_load_data.sql
 │   ├── 04_rfm_segmentation_view.sql    # the scoring view
-│   ├── 05_validation_checks.sql        # data-quality and logic checks
-│   └── 06_segment_summary.sql          # reproduces the README tables
-├── dax/
-│   └── measures.dax                    # 23 measures + Segment Order column
-├── powerbi/
-│   └── customer_segmentation_dashboard.pbix
-├── docs/
-│   ├── methodology.md
-│   └── screenshots/
-└── data/
-    └── README.md                       # data source + schema (raw data not committed)
+│   └── 05_validation.sql               # data-quality and logic checks
+├── LICENSE
+└── README.md
 ```
 
 ## ▶️ How to run
