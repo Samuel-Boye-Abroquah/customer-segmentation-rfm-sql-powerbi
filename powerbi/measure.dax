@@ -1,0 +1,171 @@
+	// =====================================================================
+// measures.dax — Customer Segmentation Dashboard
+// Source table: rfm_customer_segments (MySQL view, see sql/04_...)
+// Paste each block into Power BI: Modeling > New measure / New column.
+// 23 measures + 1 calculated column.
+// =====================================================================
+
+
+// ---------------------------------------------------------------------
+// CALCULATED COLUMN  (Modeling > New column)
+// Apply via: select customer_segmentation > Column tools > Sort by column
+// so every visual reads VIP -> Churn instead of alphabetical order.
+// ---------------------------------------------------------------------
+Segment Order =
+SWITCH (
+    rfm_customer_segments[customer_segmentation],
+    "VIP", 1,
+    "Regular", 2,
+    "Promising", 3,
+    "Needs Attention", 4,
+    "Hibernating", 5,
+    "Churn", 6,
+    99
+)
+
+
+// ---------------------------------------------------------------------
+// BASE MEASURES
+// ---------------------------------------------------------------------
+Total Customers = DISTINCTCOUNT ( rfm_customer_segments[customer_key] )
+
+Total Revenue = SUM ( rfm_customer_segments[monetary] )
+
+Avg Revenue per Customer = DIVIDE ( [Total Revenue], [Total Customers] )
+
+Avg Orders per Customer = AVERAGE ( rfm_customer_segments[frequency] )
+
+Avg Days Since Last Order = AVERAGE ( rfm_customer_segments[recency_days] )
+
+Avg Customer Lifespan (days) = AVERAGE ( rfm_customer_segments[life_span_days] )
+
+Avg RFM Score = AVERAGE ( rfm_customer_segments[total_score] )
+
+
+// ---------------------------------------------------------------------
+// REPEAT BUYERS
+// NOTE: an earlier version defined this as f_score = 5. Because NTILE(5)
+// forces ~20% of customers into every score, that always returned ~20%.
+// This version uses the actual order count instead.
+// ---------------------------------------------------------------------
+Repeat Buyer Rate =
+DIVIDE (
+    CALCULATE ( [Total Customers], rfm_customer_segments[frequency] >= 2 ),
+    [Total Customers]
+)
+
+
+// ---------------------------------------------------------------------
+// VIP KPIs
+// ---------------------------------------------------------------------
+VIP Customers =
+CALCULATE ( [Total Customers], rfm_customer_segments[customer_segmentation] = "VIP" )
+
+VIP Customers % = DIVIDE ( [VIP Customers], [Total Customers] )
+
+VIP Revenue =
+CALCULATE ( [Total Revenue], rfm_customer_segments[customer_segmentation] = "VIP" )
+
+VIP Revenue % =
+VAR VIPRev =
+    CALCULATE (
+        [Total Revenue],
+        REMOVEFILTERS ( rfm_customer_segments[customer_segmentation] ),
+        rfm_customer_segments[customer_segmentation] = "VIP"
+    )
+VAR TotalRev =
+    CALCULATE (
+        [Total Revenue],
+        REMOVEFILTERS ( rfm_customer_segments[customer_segmentation] )
+    )
+RETURN
+    DIVIDE ( VIPRev, TotalRev )
+
+
+// ---------------------------------------------------------------------
+// AT-RISK KPIs  (Needs Attention + Hibernating)
+// ---------------------------------------------------------------------
+At-Risk Customers =
+CALCULATE (
+    [Total Customers],
+    rfm_customer_segments[customer_segmentation] IN { "Needs Attention", "Hibernating" }
+)
+
+At-Risk Customers % = DIVIDE ( [At-Risk Customers], [Total Customers] )
+
+At-Risk Revenue =
+CALCULATE (
+    [Total Revenue],
+    rfm_customer_segments[customer_segmentation] IN { "Needs Attention", "Hibernating" }
+)
+
+At-Risk Revenue % = DIVIDE ( [At-Risk Revenue], [Total Revenue] )
+
+
+// ---------------------------------------------------------------------
+// SEGMENT SHARE MEASURES  (customer share vs revenue share)
+// ---------------------------------------------------------------------
+Customer % =
+DIVIDE (
+    [Total Customers],
+    CALCULATE ( [Total Customers], ALL ( rfm_customer_segments[customer_segmentation] ) )
+)
+
+Revenue % =
+DIVIDE (
+    [Total Revenue],
+    CALCULATE ( [Total Revenue], ALL ( rfm_customer_segments[customer_segmentation] ) )
+)
+
+Revenue Advantage % = [Revenue %] - [Customer %]
+
+
+// ---------------------------------------------------------------------
+// CONDITIONAL FORMATTING (colour rules used by visuals)
+// ---------------------------------------------------------------------
+Customer % Bar Color =
+IF (
+    [Customer %] >= [Revenue %],
+    "#0B6623",   -- deep green: Customer % is the bigger bar here
+    "#A8D8A0"    -- light green: Revenue % is bigger
+)
+
+Revenue % Bar Color =
+IF (
+    [Revenue %] > [Customer %],
+    "#0B6623",   -- deep green: Revenue % is the bigger bar here
+    "#A8D8A0"    -- light green: Customer % is bigger
+)
+
+Segment Color =
+SWITCH (
+    SELECTEDVALUE ( rfm_customer_segments[customer_segmentation] ),
+    "VIP", "#006D5B",
+    "Regular", "#2F9E44",
+    "Promising", "#74C69D",
+    "Needs Attention", "#FFD43B",
+    "Hibernating", "#F76707",
+    "Churn", "#D62828",
+    "#BDBDBD"
+)
+
+Segment Color (Avg Rev Rank) =
+VAR Seg = SELECTEDVALUE ( rfm_customer_segments[customer_segmentation] )
+VAR AvgRank =
+    RANKX (
+        FILTER (
+            ALLSELECTED ( rfm_customer_segments[customer_segmentation] ),
+            rfm_customer_segments[customer_segmentation] <> "Churn"
+        ),
+        [Avg Revenue per Customer], , DESC, DENSE
+    )
+RETURN
+    SWITCH (
+        TRUE (),
+        Seg = "Churn", "#C0392B",
+        AvgRank = 1, "#0B6623",
+        AvgRank = 2, "#2E8B57",
+        AvgRank = 3, "#6DBE7A",
+        AvgRank = 4, "#A8D8A0",
+        "#D5EBC9"
+    )
