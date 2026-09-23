@@ -120,7 +120,7 @@ customer-segmentation-rfm-sql-powerbi/
 
 ## ⚠️ Limitations
 
-Scores use `NTILE`, so customers with identical raw values (for example, all one-order customers) are separated by `customer_key`. Segments are therefore reproducible but not perfectly tie-safe. This and other limitations are documented, with a proposed v2, in [docs/methodology.md](docs/methodology.md#known-limitations).
+Scores use `NTILE`, so customers with identical raw values (for example, all one-order customers) are separated by `customer_key`. Segments are therefore reproducible but not perfectly tie-safe. This and other limitations are documented, with a proposed v2, in [Documents/methodology.md](Documents/methodology.md).
 
 ## 👤 Author
 
