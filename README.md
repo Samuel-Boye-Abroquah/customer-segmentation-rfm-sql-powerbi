@@ -14,7 +14,9 @@ An end-to-end customer analytics project. It scores **18,484 customers** on Rece
 
 `MySQL tables → rfm_customer_segments view → Power BI model → Executive dashboard`
 
-![Executive Overview](Documents/executive_overview.png)
+## 🏗️ Pipeline
+
+![Pipeline](Documents/meridian_pipeline.png)
 
 ---
 
@@ -51,6 +53,7 @@ Each customer is scored on four dimensions built from `fact_sales` and `dim_cust
 Each dimension gets a **1–5 score** via `NTILE(5)` (5 = best). The four scores sum to a **total from 4 to 20**, which maps to a segment. All dates are anchored to the latest order in the dataset (not `CURDATE()`), and every `NTILE` uses `customer_key` as a tie-breaker so results are reproducible.
 
 Full detail, including design choices and limitations: **[Documents/methodology.md](Documents/methodology.md)**.
+![Executive Overview](Documents/executive_overview.png)
 
 ### Segments
 
