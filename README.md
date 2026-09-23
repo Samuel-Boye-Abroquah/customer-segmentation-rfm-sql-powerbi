@@ -123,9 +123,24 @@ customer-segmentation-rfm-sql-powerbi/
 Scores use `NTILE`, so customers with identical raw values (for example, all one-order customers) are separated by `customer_key`. Segments are therefore reproducible but not perfectly tie-safe. This and other limitations are documented, with a proposed v2, in [Documents/methodology.md](Documents/methodology.md).
 
 ## 👤 Author
+## 👤 About
 
-**Samuel Boye Abroquah** — Quality Assurance Supervisor transitioning into data analytics, based in Accra, Ghana.
+Built by **Samuel Boye Abroquah** — Quality Assurance Technician and Data Analytics Professional applying 12+ years of process-validation discipline to data engineering, business intelligence, and analytical system design.
 
-[LinkedIn](TODO-add-link) · [Upwork](TODO-add-link)
+- LinkedIn: https://linkedin.com/in/Samuel-Boye-Abroquah
+- GitHub: https://github.com/Samuel-Boye-Abroquah
+
+---
+
+## 🎯 Skills Demonstrated
+
+- Analytics Engineering
+- SQL Development
+- Power BI Development
+- DAX
+- Data Quality Management
+- KPI Design
+- Business Intelligence
+``
 
 Licensed under the [MIT License](LICENSE).
