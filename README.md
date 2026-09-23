@@ -129,6 +129,7 @@ Built by **Samuel Boye Abroquah** — Quality Assurance Technician and Data Anal
 
 - LinkedIn: https://linkedin.com/in/Samuel-Boye-Abroquah
 - GitHub: https://github.com/Samuel-Boye-Abroquah
+- Up Work: https://www.upwork.com/freelancers/~018743c2df1887a814
 
 ---
 
