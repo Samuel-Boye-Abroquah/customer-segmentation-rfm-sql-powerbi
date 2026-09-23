@@ -16,7 +16,7 @@ An end-to-end customer analytics project. It scores **18,484 customers** on Rece
 
 ## 🏗️ Pipeline
 
-![Pipeline](Documents/meridian_pipeline.png)
+![Pipeline](Documents/pipeline.png)
 
 ---
 
