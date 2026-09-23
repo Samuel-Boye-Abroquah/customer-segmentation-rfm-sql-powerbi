@@ -142,7 +142,7 @@ total_score = m_score + f_score + l_score + r_score
 
 **Thresholds** were set by inspecting the histogram of `total_score` (shown on the dashboard's Segment Deep-Dive page) so that every segment is populated and meaningful. They are judgement-based, not statistically derived. If the customer base changes materially, re-inspect the histogram and recalibrate.
 
-**Sort order.** Segments are shown in business-priority order (VIP → Churn) using a `Segment Order` calculated column with *Sort by column* (see `dax/measures.dax`).
+**Sort order.** Segments are shown in business-priority order (VIP → Churn) using a `Segment Order` calculated column with *Sort by column* (see `powerbi/measure.dax`).
 
 ---
 
@@ -169,7 +169,7 @@ total_score = m_score + f_score + l_score + r_score
 
 ## Known limitations
 
-1. **Tie-splitting.** `NTILE` forces five equal-sized groups. Where many customers share the same raw value, and one-order customers are the clear example (average orders per customer is about 1.5), identical customers are placed in different buckets, ordered by `customer_key`. Consequences: (a) two customers with the same behaviour can receive different scores; (b) if `customer_key` is assigned chronologically, ties are resolved in favour of newer customers. The same applies to Lifespan, where one-order customers all have 0 days. Checks 10 and 11 in `sql/05_validation_checks.sql` show how much this affects the data.
+1. **Tie-splitting.** `NTILE` forces five equal-sized groups. Where many customers share the same raw value, and one-order customers are the clear example (average orders per customer is about 1.5), identical customers are placed in different buckets, ordered by `customer_key`. Consequences: (a) two customers with the same behaviour can receive different scores; (b) if `customer_key` is assigned chronologically, ties are resolved in favour of newer customers. The same applies to Lifespan, where one-order customers all have 0 days. Checks 10 and 11 in `sql/05_validation.sql` show how much this affects the data.
    - *Possible v2:* tie-safe scoring, e.g. `CEIL(5 * CUME_DIST() OVER (ORDER BY frequency))`, which gives equal values equal scores (at the cost of unequal group sizes), or fixed business thresholds for F and L (e.g. F: 1, 2, 3, 4–5, 6+).
 2. **Score-based KPIs are partly artefacts.** Because `NTILE` forces ~20% into each score, "share of customers with f_score = 5" is always ≈20%. Use raw values (e.g. `frequency >= 2`) for KPIs such as Repeat Buyer Rate.
 3. **Lifespan is active span, not tenure** (see above).
@@ -191,8 +191,8 @@ total_score = m_score + f_score + l_score + r_score
 ## Implementation reference
 
 - SQL view: [`sql/04_rfm_segmentation_view.sql`](../sql/04_rfm_segmentation_view.sql)
-- Validation: [`sql/05_validation_checks.sql`](../sql/05_validation_checks.sql)
-- DAX: [`dax/measures.dax`](../dax/measures.dax)
+- Validation: [`sql/05_validation.sql`](../sql/05_validation.sql)
+- DAX: [`powerbi/measure.dax`](../powerbi/measure.dax)
 - Techniques: `NTILE`, CTEs, `CROSS JOIN` for the reference date, `TIMESTAMPDIFF`, `COUNT(DISTINCT …)`, `CASE`
 - Requires MySQL 8.0+ (window functions)
 
